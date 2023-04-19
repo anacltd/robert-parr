@@ -1,4 +1,5 @@
 import os.path
+import logging
 
 try:
     from configparser import ConfigParser
@@ -16,3 +17,6 @@ LOCAL_CONFIG_PATH = os.path.join(
 )
 
 config.read(DEFAULT_CONFIG_FILES + [LOCAL_CONFIG_PATH])
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logger = logging.getLogger(__name__)
