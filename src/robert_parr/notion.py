@@ -42,17 +42,28 @@ def _request(method: str, url: str, **kwargs):
     return results
 
 
-def query_database(database_id: str):
+def query_database(database_id: str) -> list:
     """
     Send a POST request to a db to retrieve data from it
     :param database_id: the id of the db you want to retrieve the data of
     :return:
     """
-    return _request(
-        method="POST",
-        url=URL_QUERY.format(id=database_id),
-        headers=HEADERS
-    )
+    has_more = True
+    n = 100
+    results = []
+    params = {"page_size": n}
+    while has_more:
+        res = _request(
+            method="POST",
+            url=URL_QUERY.format(id=database_id),
+            headers=HEADERS,
+            json=params
+        )
+        params["start_cursor"] = res.get("next_cursor")
+        results.extend(res.get('results'))
+        n += 100
+        has_more = res.get('has_more')
+    return results
 
 
 def update_database_row(row_id: str, data: str):

@@ -1,6 +1,6 @@
 import pytest
 
-from robert_parr.robert import retrieve_word_definition
+from robert_parr.robert import robert_lookup
 
 TEST_WORDS = [
     (
@@ -40,4 +40,4 @@ TEST_WORDS = [
 
 @pytest.mark.parametrize("word,output", TEST_WORDS)
 def test_robert_scrapping(word, output):
-    assert retrieve_word_definition(word) == output
+    assert robert_lookup(word) == output

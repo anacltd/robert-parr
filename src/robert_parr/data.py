@@ -18,7 +18,7 @@ def get_rows_to_update(database_id: str) -> list:
     :return: a list of rows to update
     """
     database_data = query_database(database_id=database_id)
-    return list(filter(lambda x: not x['properties']['Meaning'].get('rich_text'), database_data['results']))
+    return list(filter(lambda x: not x['properties']['Meaning'].get('rich_text'), database_data))
 
 
 def update_row_with_data(row_to_update):
