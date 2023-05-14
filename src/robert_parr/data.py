@@ -18,7 +18,9 @@ def get_rows_to_update(database_id: str) -> list:
     :return: a list of rows to update
     """
     database_data = query_database(database_id=database_id)
-    return list(filter(lambda x: not x['properties']['Meaning'].get('rich_text'), database_data))
+    return list(filter(lambda x: not x['properties']['Meaning'].get('rich_text')
+                                 or x['properties']['Word'].get('title')[0].get('text').get('content') == '\n',
+                       database_data))
 
 
 def update_row_with_data(row_to_update):
@@ -32,14 +34,14 @@ def update_row_with_data(row_to_update):
     word_definition, word_synonym = retrieve_word_definition(word=word_to_retrieve)
     rich_text = []
     if word_definition:
-        DEF['text']['content'] = word_definition + '\n'
-        DEF['plain_text'] = word_definition + '\n'
+        DEF['text']['content'] = word_definition
+        DEF['plain_text'] = word_definition
         rich_text.append(DEF)
     else:
         logger.warning(f"Could not retrieve data for \"{word_to_retrieve}\"")
     if word_synonym:
-        SYN['text']['content'] = word_synonym
-        SYN['plain_text'] = word_synonym
+        SYN['text']['content'] = f"\n{word_synonym}"
+        SYN['plain_text'] = f"\n{word_synonym}"
         rich_text.append(SYN)
     row_to_update['properties']['Meaning']['rich_text'] = rich_text
     data = dumps({"properties": row_to_update['properties']})
