@@ -6,6 +6,7 @@ from robert_parr import logger
 
 ROBERT_URL = "https://dictionnaire.lerobert.com/definition/{word}"
 BKP_URL = "https://www.le-dictionnaire.com/definition/{word}"
+HTML_PARSER = 'html5lib'
 
 
 def robert_lookup(word: str) -> (str, str):
@@ -19,8 +20,7 @@ def robert_lookup(word: str) -> (str, str):
     page = requests.get(ROBERT_URL.format(word=to_request))
     if page.status_code != 200:
         return "", ""
-    page_parser = 'html.parser'
-    soup = BeautifulSoup(page.content, page_parser)
+    soup = BeautifulSoup(page.content, HTML_PARSER)
     word_def = soup.findAll('span', {"class": "d_dfn"})
     if not word_def:
         return "", ""
@@ -44,11 +44,9 @@ def bkp_lookup(word: str) -> (str, str):
     :param word: the word to retrieve the definition of
     :return: a tuple (word's definition, word's synonyms)
     """
-    # TODO: handle encoding
     to_request = word.lower().replace(' ', '-')
     page = requests.get(BKP_URL.format(word=to_request))
-    page_parser = 'html.parser'
-    soup = BeautifulSoup(page.content, page_parser)
+    soup = BeautifulSoup(page.content, HTML_PARSER)
     word_def = soup.findAll('li')
     multiple_defs = [t.text for t in word_def]
     if len(multiple_defs) == 1:
