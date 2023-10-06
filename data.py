@@ -3,7 +3,7 @@ from json import dumps
 from notion import query_database, update_database_row
 from robert import retrieve_word_definition
 
-from robert_parr import config, logger
+from helpers import config, logger
 
 
 # rich text definition for word definition and synonyms
@@ -49,7 +49,7 @@ def update_row_with_data(row_to_update):
 
 
 if __name__ == '__main__':
-    to_update = get_rows_to_update(config.get('notion', 'db_id'))
+    to_update = get_rows_to_update(config.get('notion', 'words_db_id'))
     if not to_update:
         logger.info("Your database is up to date!")
     else:

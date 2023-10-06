@@ -1,8 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-
-from robert_parr import logger
+from helpers import logger
 
 ROBERT_URL = "https://dictionnaire.lerobert.com/definition/{word}"
 BKP_URL = "https://www.le-dictionnaire.com/definition/{word}"

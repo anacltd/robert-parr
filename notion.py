@@ -2,7 +2,7 @@ from json import JSONDecodeError
 
 import requests
 
-from robert_parr import config, logger
+from helpers import config, logger
 
 URL_QUERY = "https://api.notion.com/v1/databases/{id}/query"
 URL_UPDATE = "https://api.notion.com/v1/pages/{id}"
@@ -10,7 +10,7 @@ URL_UPDATE = "https://api.notion.com/v1/pages/{id}"
 HEADERS = {
     "Authorization": "Bearer " + config.get('notion', 'secret'),
     "Content-Type": "application/json",
-    "Notion-Version": "2021-05-13"
+    "Notion-Version": "2022-06-28",
 }
 
 

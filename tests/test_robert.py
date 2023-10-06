@@ -1,6 +1,6 @@
 import pytest
 
-from robert_parr.robert import robert_lookup
+from robert import robert_lookup
 
 TEST_WORDS = [
     (
